@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SongsApi.Models;
 using WebApplication2.Models;
 
 namespace WebApplication2.Data
@@ -10,29 +11,11 @@ namespace WebApplication2.Data
 
 
         }
-        public DbSet<Song> Songs { get; set; }
+        public DbSet<Song> Songs { get; set; } 
+        public DbSet<Artist> Artists { get; set; }  
+        public DbSet<Album> Albums { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Song>().HasData(
-                new Song
-                {
-
-                    Id = 1, 
-                    Title = "Willow", 
-                    Language = "en", 
-                    Duration = "4:30"
-                },
-                 new Song
-                 {
-
-                     Id = 2,
-                     Title = "Willow2",
-                     Language = "es",
-                     Duration = "4:40"
-                 }
-                );
         }
 
-    }
+    
 }
