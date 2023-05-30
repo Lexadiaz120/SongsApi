@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers;
+//using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers;
 using SongsApi.Models;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using WebApplication2.Data;
 
@@ -40,6 +41,35 @@ namespace SongsApi.Controllers
                                 }).ToListAsync();
 
             return Ok(artists);
+        }
+        [HttpGet("[action]")]
+        public async Task <IActionResult>  ArtistDetails(int artistId) {
+
+            // SELECT artists_title, artist_name FROM  INNER JOIN Artists ON Artists.artistId =  Song.artistId WHERE ; 
+            var artistDetails = await _dbContext.Artists.Where(a => a.Id == artistId).Include(a => a.Songs).ToListAsync();   
+            return Ok(artistDetails);       
+        }
+
+        [HttpGet] 
+
+        public async Task <IActionResult> GetAlbums()
+        {
+            var albums = await (from album in _dbContext.Albums select new
+            {
+               Id = album.id, 
+               Name = album.name,
+               ImageUrl = album.ImageUrl
+            }).ToListAsync();
+
+            return Ok(albums);
+        }
+
+        [HttpGet("[action]")]
+       
+        public async Task <IActionResult> AlbumDetails(int albumId)
+        {
+            var albumDetails = await  _dbContext.Albums.Where(a => a.Id == albumId).Include(a => a.Songs).ToListAsync();  
+            return Ok(albumDetails);
         }
 
     }
